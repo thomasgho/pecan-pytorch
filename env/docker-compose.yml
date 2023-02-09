@@ -1,0 +1,29 @@
+version: '3'
+services:
+  notebook1:
+      # set your container image name
+    image: ghorbani/pecan-torch
+    user: root
+      # set your container name to avoid duplication
+    container_name: ghorbani_pecan_torch
+    ports:
+      - '8896:8888'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - ../.:/home/user/work
+    environment:
+      # run 'id $whoami' to get UID and GID to set here
+      - NB_UID=1008
+      - NB_GID=1008
+      - GRANT_SUDO=yes
+      # entrypoint.sh modify UID and GID in container, activate conda env then evaluate the command in the arg of the script
+    command: entrypoint.sh jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --LabApp.token='torch'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['1']
+              #count: all
+              capabilities: [gpu]
