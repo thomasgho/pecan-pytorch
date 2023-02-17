@@ -104,7 +104,7 @@ class Trainer:
             
             # update weights after accumulation_steps iterations
             # effective batch size is increased 
-            if (batch + 1) % self.accumulation_steps == 0 or (batch + 1) == len(loader):
+            if (batch + 1) % self.accumulation_steps == 0 or (batch + 1) == len(loader.datapipe):
                 # update and reset (unscaled) gradients
                 self.scaler.step(self.optimizer)
                 self.scaler.update()
@@ -153,5 +153,3 @@ class Trainer:
             avg_metric = sum(batch_metrics) / len(batch_metrics)
             
         return avg_loss, avg_metric
-        
-        

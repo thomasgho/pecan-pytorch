@@ -8,6 +8,7 @@ from torchdata.datapipes.iter import IterableWrapper, Collator
 from dgl import batch
 from dgl.nn.pytorch.factory import RadiusGraph
 
+from src.data.transforms import rotate_point_cloud
 
 # descriptor order: label, molecular weight, hydrophobicity, pI
 with open('src/data/descriptors.json', 'r') as fp:
@@ -93,7 +94,7 @@ def custom_collate(data):
         }
 
 
-def build_datapipe(root_dir):
+def build_datapipe(root_dir, num_augment=0):
     # list and open csv files
     datapipe = dp.iter.FileLister(root_dir, recursive=True)
     datapipe = dp.iter.FileOpener(datapipe, mode='rt')
@@ -114,7 +115,13 @@ def build_datapipe(root_dir):
     # order by pdb id
     datapipe = IterableWrapper(sorted(datapipe, key=lambda d: d["id"]))
     
+    # repeat pdb for augmentation
+    if num_augment > 0:
+        datapipe = datapipe.repeat(num_augment + 1)
+        datapipe = datapipe.map(rotate_point_cloud)
+    
     # collate function for when batch size > 1
     datapipe = Collator(datapipe, collate_fn=custom_collate)
     
     return datapipe
+
