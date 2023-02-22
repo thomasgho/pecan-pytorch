@@ -1,4 +1,7 @@
-### PECAN ported to PyTorch
+## PECAN - PyTorch
+
+A simple pytorch implementation of [PECAN](https://doi.org/10.1101/658054).
+Environment is constructed with Docker.
 
 To run an experiment, create a `.json` file with desired configuration paramteres in the `configs` folder. Then, run: 
 ```
@@ -9,7 +12,6 @@ python main.py -f <your config .json file>
 
 The available configuration parameters are as follows:
 ```
-"model"                 str           Choose one of "PECAN" or "PECAN_PN"
 "in_feats"              int           Input data feature size
 "hid_feats"             int           Hidden feature size
 "dropout"               float         Dropout probability for GCN module
@@ -25,11 +27,22 @@ The available configuration parameters are as follows:
 "save_model"            bool          Whether to save model weights
 ```
 
----
+### Citations
 
-**TODO:** 
-- [x] add pointnet augmentation (as in [original](https://github.com/charlesq34/pointnet/blob/master/provider.py))
-- [ ] add SE(3) transformer module (see [here](https://github.com/NVIDIA/DeepLearningExamples/tree/master/DGLPyTorch/DrugDiscovery/SE3Transformer))
-- [ ] add EGNN module (see [here](https://docs.dgl.ai/en/1.0.x/generated/dgl.nn.pytorch.conv.EGNNConv.html)). Neural message passing mechnism (specifically the aggregate function) *may* need to be modified if to be kept similar to PECAN.
+```bibtex
+
+@article{10.1093/bioinformatics/btaa263,
+    author = {Pittala, Srivamshi and Bailey-Kellogg, Chris},
+    title = "{Learning context-aware structural representations to predict antigen and antibody binding interfaces}",
+    journal = {Bioinformatics},
+    volume = {36},
+    number = {13},
+    pages = {3996-4003},
+    year = {2020},
+    month = {04},
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btaa263},
+}
+```
 
 

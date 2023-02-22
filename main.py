@@ -7,7 +7,7 @@ from torchdata.dataloader2 import DataLoader2
 from torchmetrics.classification import BinaryAveragePrecision
 
 from src.data.datapipe import build_datapipe
-from src.models.baseline import PECAN
+from src.models import PECAN
 from src.trainer import Trainer
 
 os.environ['TENSORBOARD_BINARY'] = '/data/conda/bin/tensorboard'
@@ -35,22 +35,12 @@ def train(args):
         del dp_ag, dp_ab
         
     # model instance
-    if args.model == "PECAN_PN":
-        model = PECAN(
-            in_feats=args.in_feats,
-            hid_feats=args.hid_feats,
-            out_feats=1,
-            dropout=args.dropout,
-        )
-    elif args.model == "PECAN":
-        model = PECAN(
-            in_feats=args.in_feats,
-            hid_feats=args.hid_feats,
-            out_feats=1,
-            dropout=args.dropout,
-        )
-    else: 
-        raise ValueError("Please choose one of \"PECAN\" or \"PECAN_PN\" for model")
+    model = PECAN(
+        in_feats=args.in_feats,
+        hid_feats=args.hid_feats,
+        out_feats=1,
+        dropout=args.dropout,
+    )
 
     # optimizer instance
     # optimizer chosen by original PECAN authors

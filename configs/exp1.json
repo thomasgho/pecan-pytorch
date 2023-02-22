@@ -1,5 +1,4 @@
 {
-    "model": "PECAN_PN",
     "in_feats": 62,
     "hid_feats": 32,
     "dropout": 0.5, 
